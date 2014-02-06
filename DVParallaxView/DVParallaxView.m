@@ -159,11 +159,17 @@
 - (CGPoint)contentOffsetWithRotationRate:(CMRotationRate)rotationRate {
     double xOffset = (fabs(rotationRate.y) > DV_ROTATION_THRESHOLD)?rotationRate.y*DV_ROTATION_MULTIPLIER:0.f;
     double yOffset = (fabs(rotationRate.x) > DV_ROTATION_THRESHOLD)?rotationRate.x*DV_ROTATION_MULTIPLIER:0.f;
-    CGPoint newOffset = CGPointMake(self.contentOffset.x + xOffset,
-                                    self.contentOffset.y + yOffset);
+    CGPoint newOffset;
+    if (UIDeviceOrientationIsLandscape([[UIDevice currentDevice] orientation])){
+        newOffset = CGPointMake(self.contentOffset.x + yOffset, self.contentOffset.y + xOffset);
+    }
+    else{
+        newOffset = CGPointMake(self.contentOffset.x + xOffset, self.contentOffset.y + yOffset);
+    }
+    
     return newOffset;
 }
-                        
+
 - (void)displayLinkHandler {
     [self setContentOffset:[self contentOffsetWithRotationRate:self.motionManager.deviceMotion.rotationRate]];
 }
