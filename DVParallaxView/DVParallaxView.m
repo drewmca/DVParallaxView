@@ -157,15 +157,17 @@
 #pragma mark - Gyroscope to offset
          
 - (CGPoint)contentOffsetWithRotationRate:(CMRotationRate)rotationRate {
-    double xOffset = (fabs(rotationRate.y) > DV_ROTATION_THRESHOLD)?rotationRate.y*DV_ROTATION_MULTIPLIER:0.f;
-    double yOffset = (fabs(rotationRate.x) > DV_ROTATION_THRESHOLD)?rotationRate.x*DV_ROTATION_MULTIPLIER:0.f;
-    CGPoint newOffset;
-    if (UIDeviceOrientationIsLandscape([[UIDevice currentDevice] orientation])){
-        newOffset = CGPointMake(self.contentOffset.x + yOffset, self.contentOffset.y + xOffset);
+    double xOffset;
+    double yOffset;
+    if (UIDeviceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])){
+        xOffset = (fabs(rotationRate.x) > DV_ROTATION_THRESHOLD)?rotationRate.x*DV_ROTATION_MULTIPLIER:0.f;
+        yOffset = (fabs(rotationRate.y) > DV_ROTATION_THRESHOLD)?rotationRate.y*DV_ROTATION_MULTIPLIER:0.f;
     }
     else{
-        newOffset = CGPointMake(self.contentOffset.x + xOffset, self.contentOffset.y + yOffset);
+        xOffset = (fabs(rotationRate.y) > DV_ROTATION_THRESHOLD)?rotationRate.y*DV_ROTATION_MULTIPLIER:0.f;
+        yOffset = (fabs(rotationRate.x) > DV_ROTATION_THRESHOLD)?rotationRate.x*DV_ROTATION_MULTIPLIER:0.f;
     }
+    CGPoint newOffset = CGPointMake(self.contentOffset.x + xOffset, self.contentOffset.y + yOffset);
     
     return newOffset;
 }
