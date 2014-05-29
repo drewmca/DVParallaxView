@@ -18,5 +18,6 @@
 
 @property (nonatomic) BOOL gyroscopeControl;
 @property (nonatomic) BOOL boundContentsToScreen;
+@property (nonatomic) BOOL scrollWithTouch;
 
 @end

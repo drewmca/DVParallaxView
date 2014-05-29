@@ -26,6 +26,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        self.scrollWithTouch = YES;
         self.parallaxDistanceFactor = 2.f;
         self.parallaxFrontFactor = 20.f;
         self.backgroundColor = [UIColor clearColor];
@@ -177,6 +178,8 @@
 #pragma mark - Gesture handler
 
 - (void)panHandler:(UIPanGestureRecognizer *)pan {
+    if (!self.scrollWithTouch) return;
+    
     CGPoint translation = [pan translationInView:self];
     [self setContentOffset:CGPointMake(self.contentOffset.x + translation.x,
                                        self.contentOffset.y - translation.y)];
